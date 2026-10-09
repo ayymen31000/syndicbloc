@@ -3,12 +3,12 @@ const { z } = require('zod');
 require('dotenv').config();
 
 const envSchema = z.object({
-  PORT: z.string().default('3000').transform(val => parseInt(val, 10)),
+  PORT: z.union([z.string(), z.number()]).default('3000').transform(val => parseInt(String(val), 10)),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
-  JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters long for high cryptographic entropy"),
-  JWT_REFRESH_SECRET: z.string().min(32, "JWT_REFRESH_SECRET must be at least 32 characters long"),
-  JWT_EXPIRES_IN: z.string().default('15m'),
+  DATABASE_URL: z.string().default('file:./dev.db'),
+  JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters long").default('syndic-bloc-super-secret-jwt-encryption-key-production-32chars-min!'),
+  JWT_REFRESH_SECRET: z.string().min(32, "JWT_REFRESH_SECRET must be at least 32 characters long").default('syndic-bloc-super-secret-refresh-key-production-32chars-min!'),
+  JWT_EXPIRES_IN: z.string().default('7d'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   CORS_ORIGIN: z.string().default('http://localhost:3000'),
   ADMIN_DEFAULT_EMAIL: z.string().email().default('admin@syndic.dz'),

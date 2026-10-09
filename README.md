@@ -1,6 +1,20 @@
 # 🏢 SyndicBloc - Plateforme de Gestion de Charges d'Immeuble (Syndic)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ayymen31000/syndicbloc)
+![CI Test & Build](https://github.com/ayymen31000/syndicbloc/actions/workflows/ci.yml/badge.svg)
+
 Application web moderne, fluide et sécurisée conçue spécifiquement pour la gestion de copropriété et de syndic d'immeuble, adossée à une base de données relationnelle persistante (**SQLite & Prisma ORM**) et une interface réactive.
+
+---
+
+## ☁️ Déploiement en Ligne 100% Gratuit (Render)
+
+L'application est prête à être déployée gratuitement en 1 clic grâce au fichier de configuration [render.yaml](render.yaml) :
+
+1. Cliquez sur le bouton ci-dessus **« Deploy to Render »** (ou rendez-vous sur [render.com](https://render.com) et connectez votre compte GitHub).
+2. Sélectionnez votre dépôt **`ayymen31000/syndicbloc`**.
+3. Render configurera automatiquement le service Web (Node.js, initialisation de la base SQLite, seeding des 24 appartements et du compte administrateur).
+4. Cliquez sur **« Apply »** / **« Create Web Service »**. En moins de 2 minutes, votre application disposera d'une URL publique sécurisée HTTPS (ex: `https://syndicbloc.onrender.com`) accessible partout depuis smartphone, tablette ou ordinateur !
 
 ---
 
