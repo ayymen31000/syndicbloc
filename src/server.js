@@ -39,8 +39,13 @@ app.disable('x-powered-by'); // Point 3
 const allowedOrigins = [env.CORS_ORIGIN, 'http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:3000'];
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, same-origin)
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps, curl, same-origin), localhost, and onrender.com
+    if (!origin ||
+        origin.endsWith('.onrender.com') ||
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1') ||
+        allowedOrigins.includes(origin) ||
+        env.CORS_ORIGIN === '*') {
       return callback(null, true);
     }
     return callback(new Error('Non autorisé par la politique CORS'));
