@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  syndicbloc:
+    build: .
+    container_name: syndicbloc-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=file:./dev.db
+      - JWT_SECRET=super-secret-key-syndic-bloc-secure-random-token-2026-xyz123!
+      - JWT_REFRESH_SECRET=super-secret-refresh-key-syndic-bloc-secure-random-2026-abc987!
+      - CORS_ORIGIN=http://localhost:3000
+      - ADMIN_DEFAULT_EMAIL=admin@syndic.dz
+      - ADMIN_DEFAULT_PASSWORD=AdminPassword2026!
+    volumes:
+      - ./prisma:/app/prisma
+      - ./uploads:/app/uploads

@@ -1,0 +1,90 @@
+// Prisma Schema - Gestion de Copropriété (SyndicBloc)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Appartement {
+  id           String       @id @default(uuid())
+  numero       Int          @unique
+  etage        String       // 'RDC', '1', '2', ..., '7'
+  nom_resident String
+  telephone    String?
+  notes        String?
+  actif        Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  cotisations  Cotisation[]
+
+  @@map("appartements")
+}
+
+model Cotisation {
+  id             String       @id @default(uuid())
+  appartement_id String
+  appartement    Appartement  @relation(fields: [appartement_id], references: [id], onDelete: Cascade)
+  mois           Int          // 1 à 12
+  annee          Int          // ex: 2026
+  montant        Int          @default(500) // 500 DA
+  est_paye       Boolean      @default(false)
+  date_paiement  DateTime?
+  notes          String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([appartement_id, mois, annee])
+  @@index([mois, annee])
+  @@index([appartement_id])
+  @@map("cotisations")
+}
+
+model Depense {
+  id               String    @id @default(uuid())
+  titre            String
+  montant          Int       // En Dinars Algériens (DA)
+  date_depense     DateTime
+  mois             Int       // 1 à 12
+  annee            Int       // ex: 2026
+  categorie        String    @default("Autre")
+  justificatif_url String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([mois, annee])
+  @@map("depenses")
+}
+
+model Admin {
+  id                 String    @id @default(uuid())
+  email              String    @unique
+  username           String?   @unique
+  mot_de_passe_hash  String
+  two_factor_secret  String?
+  two_factor_enabled Boolean   @default(false)
+  failed_attempts    Int       @default(0)
+  locked_until       DateTime?
+  refresh_token_hash String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  auditLogs          AuditLog[]
+
+  @@map("admins")
+}
+
+model AuditLog {
+  id         String    @id @default(uuid())
+  admin_id   String?
+  admin      Admin?    @relation(fields: [admin_id], references: [id], onDelete: SetNull)
+  action     String    // ex: "LOGIN", "COTISATION_PAID", "EXPENSE_CREATED"
+  details    String?
+  ip_address String?
+  createdAt  DateTime  @default(now())
+
+  @@map("audit_logs")
+}
