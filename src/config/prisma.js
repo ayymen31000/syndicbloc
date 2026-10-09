@@ -1,4 +1,5 @@
 // src/config/prisma.js - Prisma Client singleton
+process.env.DATABASE_URL = process.env.DATABASE_URL || 'file:./dev.db';
 const { PrismaClient } = require('@prisma/client');
 const logger = require('./logger');
 

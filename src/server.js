@@ -15,6 +15,9 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
+// Trust reverse proxy (Render, Cloudflare, AWS, etc.) for rate limiter and HTTPS
+app.set('trust proxy', 1);
+
 // 1. Endpoint Security with Helmet (Point 3)
 app.use(helmet({
   contentSecurityPolicy: {
