@@ -4,8 +4,8 @@
   "description": "Application web moderne, fluide et autonome (Single-Page Application) spécialement conçue pour le gestionnaire d'immeuble / syndic de copropriété.",
   "main": "index.js",
   "scripts": {
-    "build": "npx prisma generate && npx prisma db push && node prisma/seed.js",
-    "start": "npx prisma db push && node prisma/seed.js && node src/server.js",
+    "build": "npx prisma generate && node scripts/setup-db.js",
+    "start": "node scripts/setup-db.js && node src/server.js",
     "dev": "node src/server.js",
     "seed": "node prisma/seed.js",
     "test": "jest --runInBand --forceExit"

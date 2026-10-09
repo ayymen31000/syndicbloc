@@ -9,6 +9,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "file:./dev.db"
+      JWT_SECRET: "ci-secret-for-testing-purposes-minimum-32-chars-long!"
+      JWT_REFRESH_SECRET: "ci-refresh-secret-for-testing-purposes-minimum-32-chars!"
 
     steps:
       - name: Checkout code
@@ -26,7 +30,7 @@ jobs:
       - name: Generate Prisma Client & Push DB
         run: |
           npx prisma generate
-          npx prisma db push
+          node scripts/setup-db.js
 
       - name: Run Test Suite
         run: npm test
